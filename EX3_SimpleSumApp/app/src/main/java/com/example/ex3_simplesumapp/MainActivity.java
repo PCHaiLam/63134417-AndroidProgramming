@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
         EditText editTextA = findViewById(R.id.edtA);
         EditText editTextB = findViewById(R.id.edtB);
         EditText editTextKQ = findViewById(R.id.edtKQ);
-        Button btnCong = findViewById(R.id.btnCong);
 
         int soA = Integer.parseInt(editTextA.getText().toString());
         int soB = Integer.parseInt(editTextB.getText().toString());
