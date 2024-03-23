@@ -31,8 +31,6 @@ public class QLCV extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(500, 500);
         
-        
-        
         //main chứa các thành phần
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -72,83 +70,10 @@ public class QLCV extends JFrame {
         });
         buttonPanel.add(clearButton);
         
-        //input
-        JPanel inputPanel = new JPanel();
-        mainPanel.add(inputPanel);
-        
-        JLabel lblNewLabel = new JLabel("Nhập CV ");
-        inputPanel.add(lblNewLabel);
-        
-        textField = new JTextField();
-        textField.setColumns(10);
-        //add textfield và buttonpanel vào inputPanel
-        inputPanel.add(textField, BorderLayout.CENTER);
-        inputPanel.add(buttonPanel, BorderLayout.EAST);
-        
-        
-        //table
-        tableModel = new DefaultTableModel();
-        tableModel.addColumn("Công Việc");
-        
-        String[] defaultTasks = {"CV 1", "CV 2", "CV 3", "CV 4", "CV 5", "CV 6", "CV 7", "CV 8", "CV 9", "CV 10"};
-        for (String task : defaultTasks) {
-            tableModel.addRow(new Object[]{task});
-        }
-        
-        table = new JTable(tableModel);
-        JScrollPane scrollPane = new JScrollPane(table);
-        mainPanel.add(scrollPane,BorderLayout.CENTER);
-        
-        //đưa tất cả thành phần vào main
-        //đưa main vào page content
-        mainPanel.add(inputPanel, BorderLayout.NORTH);
         getContentPane().add(mainPanel);
-        
         setVisible(true);
     }
-    
-    private void Add() {
-    	String task = textField.getText();
-    	//nếu edt có dữ liệu nhập vào thì sẽ thêm dữ liệu đó vào 1 hàng trong table
-    	if(!task.isEmpty()) {
-    		tableModel.addRow(new Object[]{task});
-    		textField.setText("");
-    	}
-    }
-    private void Edit() {
-    	//lấy chỉ số của dòng được chọnn
-    	int selected = table.getSelectedRow();
-    	if( selected != -1) {
-    		String editTask = JOptionPane.showInputDialog(this, "Sửa công việc", tableModel.getValueAt(selected, 0));
-    		//ktra xem người dùng có nhập dữ liệu mới vào hay không
-    		if(editTask!= null && !editTask.isEmpty()) {
-    			tableModel.setValueAt(editTask, selected, 0);
-    		}
-    		else
-    			JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 công việc để sửa","Thông báo", JOptionPane.WARNING_MESSAGE);
-    	}
-    }
-    private void Delete() {
-    	//lấy chỉ số của dòng được chọnn
-    	int selected = table.getSelectedRow();
-    	if( selected != -1) {
-    		int confirm = JOptionPane.showConfirmDialog(this, "Xóa công việc đã chọn?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-    		//ktra xem người dùng có nhập dữ liệu mới vào hay không
-    		if(confirm == JOptionPane.YES_OPTION) {
-    			tableModel.removeRow(selected);
-    		}
-    		else
-    			JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 công việc để xóa","Thông báo", JOptionPane.WARNING_MESSAGE);
-    	}
-    }
-    private void Clear() {
-    	int confirm = JOptionPane.showConfirmDialog(this, "Xóa tất cả công việc ???", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-    	if(confirm == JOptionPane.YES_OPTION) {
-    		tableModel.setRowCount(0);
-    	}
-    }
-    
-	public static void main(String[] args) {
+    public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new QLCV();
