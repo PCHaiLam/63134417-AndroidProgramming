@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
         Cong.setOnClickListener(listeCong);
         Nhan.setOnClickListener(listenNhan);
-        Tru.setOnClickListener(listeTru);
+        Tru.setOnClickListener(listenTru);
         Chia.setOnClickListener(listenChia);
     }
     void TimView() {
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             editTextKQ.setText(String.valueOf(soA + soB));
         }
     };
-    View.OnClickListener listeTru = new View.OnClickListener() {
+    View.OnClickListener listenTru = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             String strEdtA = editTextA.getText().toString();
