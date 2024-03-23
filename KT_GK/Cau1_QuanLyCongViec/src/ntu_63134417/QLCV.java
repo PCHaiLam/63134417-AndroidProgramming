@@ -103,7 +103,19 @@ public class QLCV extends JFrame {
     		textField.setText("");
     	}
     }
-    
+    private void Edit() {
+    	//lấy chỉ số của dòng được chọnn
+    	int selected = table.getSelectedRow();
+    	if( selected != 0) {
+    		String editTask = JOptionPane.showInputDialog(this, "Sửa công việc", tableModel.getValueAt(selected, 0));
+    		//ktra xem người dùng có nhập dữ liệu mới vào hay không
+    		if(editTask!= null && !editTask.isEmpty()) {
+    			tableModel.setValueAt(editTask, selected, 0);
+    		}
+    		else
+    			JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 công việc để sửa","Thông báo", JOptionPane.WARNING_MESSAGE);
+    	}
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
