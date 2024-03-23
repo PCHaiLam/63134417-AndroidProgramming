@@ -106,7 +106,7 @@ public class QLCV extends JFrame {
     private void Edit() {
     	//lấy chỉ số của dòng được chọnn
     	int selected = table.getSelectedRow();
-    	if( selected != 0) {
+    	if( selected != -1) {
     		String editTask = JOptionPane.showInputDialog(this, "Sửa công việc", tableModel.getValueAt(selected, 0));
     		//ktra xem người dùng có nhập dữ liệu mới vào hay không
     		if(editTask!= null && !editTask.isEmpty()) {
@@ -119,7 +119,7 @@ public class QLCV extends JFrame {
     private void Delete() {
     	//lấy chỉ số của dòng được chọnn
     	int selected = table.getSelectedRow();
-    	if( selected != 0) {
+    	if( selected != -1) {
     		int confirm = JOptionPane.showConfirmDialog(this, "Xóa công việc đã chọn?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
     		//nếu chọn user chọn yes thì sẽ xóa đi hàng đã chọn
     		if(confirm == JOptionPane.YES_OPTION) {
