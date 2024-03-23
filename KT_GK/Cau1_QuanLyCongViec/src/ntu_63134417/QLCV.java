@@ -129,7 +129,12 @@ public class QLCV extends JFrame {
     			JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 công việc để xóa","Thông báo", JOptionPane.WARNING_MESSAGE);
     	}
     }
-
+    private void Clear() {
+    	int confirm = JOptionPane.showConfirmDialog(this, "Xóa tất cả công việc ???", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+    	if(confirm == JOptionPane.YES_OPTION) {
+    		tableModel.setRowCount(0);
+    	}
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
