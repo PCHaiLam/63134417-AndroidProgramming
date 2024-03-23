@@ -68,6 +68,7 @@ public class QLCV extends JFrame {
         		Clear();
         	}
         });
+        buttonPanel.add(clearButton);
         
       //input
         JPanel inputPanel = new JPanel();
@@ -82,8 +83,14 @@ public class QLCV extends JFrame {
         inputPanel.add(textField, BorderLayout.CENTER);
         inputPanel.add(buttonPanel, BorderLayout.EAST);
         
+      //table
+        tableModel = new DefaultTableModel();
+        tableModel.addColumn("Công Việc");
         
-        buttonPanel.add(clearButton);
+        table = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(table);
+        mainPanel.add(scrollPane,BorderLayout.CENTER);
+
         
         getContentPane().add(mainPanel);
         setVisible(true);
