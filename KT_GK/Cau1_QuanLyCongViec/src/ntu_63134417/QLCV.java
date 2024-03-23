@@ -87,6 +87,10 @@ public class QLCV extends JFrame {
         tableModel = new DefaultTableModel();
         tableModel.addColumn("Công Việc");
         
+        String[] defaultTasks = {"CV 1", "CV 2", "CV 3", "CV 4", "CV 5", "CV 6", "CV 7", "CV 8", "CV 9", "CV 10"};
+        for (String task : defaultTasks) {
+            tableModel.addRow(new Object[]{task});
+        }
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
         mainPanel.add(scrollPane,BorderLayout.CENTER);
