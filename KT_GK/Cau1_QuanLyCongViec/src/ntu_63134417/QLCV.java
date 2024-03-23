@@ -95,6 +95,15 @@ public class QLCV extends JFrame {
         getContentPane().add(mainPanel);
         setVisible(true);
     }
+    private void Add() {
+    	String task = textField.getText();
+    	//nếu edt có dữ liệu nhập vào thì sẽ thêm dữ liệu đó vào 1 hàng trong table
+    	if(!task.isEmpty()) {
+    		tableModel.addRow(new Object[]{task});
+    		textField.setText("");
+    	}
+    }
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
