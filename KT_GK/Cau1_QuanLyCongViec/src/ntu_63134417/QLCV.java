@@ -79,7 +79,7 @@ public class QLCV extends JFrame {
         
         textField = new JTextField();
         textField.setColumns(10);
-        //add textfield và buttonpanel vào inputPanel
+        //thêm textfield và buttonpanel vào inputPanel
         inputPanel.add(textField, BorderLayout.CENTER);
         inputPanel.add(buttonPanel, BorderLayout.EAST);
         
@@ -91,7 +91,7 @@ public class QLCV extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         mainPanel.add(scrollPane,BorderLayout.CENTER);
 
-        
+        mainPanel.add(inputPanel, BorderLayout.NORTH);
         getContentPane().add(mainPanel);
         setVisible(true);
     }
