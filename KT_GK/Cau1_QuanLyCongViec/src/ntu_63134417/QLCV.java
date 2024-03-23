@@ -116,6 +116,20 @@ public class QLCV extends JFrame {
     			JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 công việc để sửa","Thông báo", JOptionPane.WARNING_MESSAGE);
     	}
     }
+    private void Delete() {
+    	//lấy chỉ số của dòng được chọnn
+    	int selected = table.getSelectedRow();
+    	if( selected != 0) {
+    		int confirm = JOptionPane.showConfirmDialog(this, "Xóa công việc đã chọn?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+    		//nếu chọn user chọn yes thì sẽ xóa đi hàng đã chọn
+    		if(confirm == JOptionPane.YES_OPTION) {
+    			tableModel.removeRow(selected);
+    		}
+    		else
+    			JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 công việc để xóa","Thông báo", JOptionPane.WARNING_MESSAGE);
+    	}
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
