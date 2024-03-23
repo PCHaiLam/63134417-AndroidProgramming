@@ -68,6 +68,21 @@ public class QLCV extends JFrame {
         		Clear();
         	}
         });
+        
+      //input
+        JPanel inputPanel = new JPanel();
+        mainPanel.add(inputPanel);
+        
+        JLabel lblNewLabel = new JLabel("Nhập CV ");
+        inputPanel.add(lblNewLabel);
+        
+        textField = new JTextField();
+        textField.setColumns(10);
+        //add textfield và buttonpanel vào inputPanel
+        inputPanel.add(textField, BorderLayout.CENTER);
+        inputPanel.add(buttonPanel, BorderLayout.EAST);
+        
+        
         buttonPanel.add(clearButton);
         
         getContentPane().add(mainPanel);
