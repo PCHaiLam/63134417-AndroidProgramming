@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -110,12 +111,32 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Trò chơi kết thúc");
         builder.setMessage("Trò chơi đã kết thúc. Điểm của bạn là " + score);
-
+        builder.setPositiveButton("Chơi lại", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                resetGame();
+            }
+        });
+        
+        builder.setCancelable(false);
         builder.show();
     }
+    private void resetGame() {
+        score = 0;
+        textView_score.setText(String.valueOf(score));
+
+        time_60s = 60000;
+        StartCountDown();
+
+        listQuestion.clear();
+        addQuestionsToList();
+        totalQuestions = listQuestion.size();
+        randomQuestion();
+    }
+
     private void randomQuestion() {
         if (listQuestion.isEmpty()) {
-            return;
+            endGame();
         }
         Random random = new Random();
         int randomIndex = random.nextInt(listQuestion.size());
