@@ -81,11 +81,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="câu hỏi"
+                android:hint="Gà và trứng, cái nào có trước?"
                 android:textSize="20sp" />
         </LinearLayout>
 
-        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp">
+
+            <Button
+                android:id="@+id/btnOp1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gà" />
+
+            <Button
+                android:id="@+id/btnOp2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Trứng" />
+
+            <Button
+                android:id="@+id/btnOp3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cả hai cái đều có trước" />
+
+            <Button
+                android:id="@+id/btnOp4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cả hai cái đều không có trước" />
+        </LinearLayout>
     </LinearLayout>
 
 
