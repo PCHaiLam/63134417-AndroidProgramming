@@ -117,7 +117,12 @@ public class MainActivity extends AppCompatActivity {
                 resetGame();
             }
         });
-        
+        builder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
         builder.setCancelable(false);
         builder.show();
     }
