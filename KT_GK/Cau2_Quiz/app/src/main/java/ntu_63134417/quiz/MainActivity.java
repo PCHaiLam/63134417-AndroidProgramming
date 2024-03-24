@@ -1,7 +1,12 @@
 package ntu_63134417.quiz;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,9 +18,11 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private List<Question> listQuestion = new ArrayList<>();
-    private TextView textView_score, textView_time, textView_sentence, textView_question;
+    private TextView textView_score, textView_time, textView_sentence, textView_question, textView_state;
     private Button btnOp1, btnOp2, btnOp3, btnOp4, btnNext;
-    private int totalQuestions, questionsDisplay = 0;
+    private int totalQuestions;
+    private String correctAnser;
+    private int scrore = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,16 +34,77 @@ public class MainActivity extends AppCompatActivity {
         totalQuestions = listQuestion.size();
         randomQuestion();
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
+        btnOp1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                randomQuestion();
+                checkAnswer(btnOp1.getText().toString(), btnOp1);
             }
         });
+
+        btnOp2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkAnswer(btnOp2.getText().toString(), btnOp2);
+            }
+        });
+
+        btnOp3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkAnswer(btnOp3.getText().toString(), btnOp3);
+            }
+        });
+
+        btnOp4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkAnswer(btnOp4.getText().toString(), btnOp4);
+            }
+        });
+
+//        btnNext.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                randomQuestion();
+//            }
+//        });
     }
+    @SuppressLint("ResourceAsColor")
+    private void checkAnswer(String selected, Button btn) {
+        if(selected.equals(correctAnser)) {
+            textView_state.setText("Chính xác !!!");
+            textView_state.setTextColor(ContextCompat.getColor(this, R.color.green));
+            scrore +=1;
+            btn.setBackgroundColor(ContextCompat.getColor(this, R.color.green));
+            textView_score.setText(String.valueOf(scrore));
+
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    textView_state.setText("");
+                    randomQuestion();
+                }
+            }, 1000);
+        }
+        else {
+            textView_state.setText("Sai rồi !!!");
+            textView_state.setTextColor(ContextCompat.getColor(this, R.color.red));
+            btn.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    textView_state.setText("");
+                    randomQuestion();
+                }
+            }, 1000);
+        }
+    }
+
     private void randomQuestion() {
-        if (questionsDisplay >= totalQuestions) {
-            // Nếu danh sách câu hỏi đã hết
+        if (listQuestion.isEmpty()) {
             return;
         }
         Random random = new Random();
@@ -50,11 +118,18 @@ public class MainActivity extends AppCompatActivity {
         btnOp2.setText(randomQuestion.getOptions().get(1));
         btnOp3.setText(randomQuestion.getOptions().get(2));
         btnOp4.setText(randomQuestion.getOptions().get(3));
+        correctAnser = randomQuestion.getCorrectAnswer();
+
+        btnOp1.setBackgroundColor(ContextCompat.getColor(this, R.color.default_button_background));
+        btnOp2.setBackgroundColor(ContextCompat.getColor(this, R.color.default_button_background));
+        btnOp3.setBackgroundColor(ContextCompat.getColor(this, R.color.default_button_background));
+        btnOp4.setBackgroundColor(ContextCompat.getColor(this, R.color.default_button_background));
+
 
         listQuestion.remove(randomIndex);
-        questionsDisplay++;
     }
     private void getID() {
+        textView_state = findViewById(R.id.textView_state);
         textView_score = findViewById(R.id.textView_score);
         textView_time = findViewById(R.id.textView_time);
         textView_sentence = findViewById(R.id.textView_sentence);
@@ -63,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         btnOp2 = findViewById(R.id.btnOp2);
         btnOp3 = findViewById(R.id.btnOp3);
         btnOp4 = findViewById(R.id.btnOp4);
-        btnNext = findViewById(R.id.btnNext);
+//        btnNext = findViewById(R.id.btnNext);
     }
     private void addQuestionsToList() {
         // Thêm các câu hỏi vào danh sách
@@ -74,8 +149,8 @@ public class MainActivity extends AppCompatActivity {
         listQuestion.add(new Question("Sở thú bị cháy, con gì chạy ra đầu tiên?", Arrays.asList("Con Hổ", "Con Voi", "Con Người", "Con Chim"), "Con Người"));
         listQuestion.add(new Question("Chồng người da đen, vợ người da trắng vừa sinh một đứa bé, răng của nó màu gì?", Arrays.asList("Đỏ", "Vàng", "Đen", "Trắng"), "Trắng"));
         listQuestion.add(new Question("Nếu n=k=u=i, n+3=u+i+6:2. Hỏi n,k,u,i=?", Arrays.asList("2", "3", "4", "5"), "3"));
-        listQuestion.add(new Question("Có một lần, nữ trộm cắp X người Anh bị giết, trong đó có ba người bị tình nghi: Người chồng của cô-Jasof. Chú của chồng cô- Peter ; vợ của chú ấy-Tehana: cô giúp việc Marry và chú quản gia Maicon. Những kí tự mà cô đã cố đẻ lại là một dãy số: 1;4;9;10;2. Cảnh sát đã biết ai là thủ phạm . Bạn có biết đó là ai không?", Arrays.asList("Jasof", "Peter", "Tehana", "Marry"), "Tehana"));
-        listQuestion.add(new Question("Câu đố số 3: Trên nhấp dưới giật là đang làm gì?", Arrays.asList("Chơi Bóng Bàn", "Trộm Cắp", "Câu Cá", "Đang Học"), "Câu Cá"));
+        listQuestion.add(new Question("Cái gì của người con gái lúc nào cũng ẩm ướt?", Arrays.asList("Mắt", "Tay", "Chân", "Râu"), "Mắt"));
+        listQuestion.add(new Question("Trên nhấp dưới giật là đang làm gì?", Arrays.asList("Chơi Bóng Bàn", "Trộm Cắp", "Câu Cá", "Đang Học"), "Câu Cá"));
         listQuestion.add(new Question("Con trai và đàn ong có điểm gì khác nhau?", Arrays.asList("Số Tuổi", "Chiều Cao", "Nơi ở", "Địa Vị"), "Nơi ở"));
         listQuestion.add(new Question("Con đường dài nhất là đường nào?", Arrays.asList("Đường Đi", "Đường Đèo", "Đường Đời", "Đường Đi Nước Ngoài"), "Đường Đời"));
         listQuestion.add(new Question("2 con vịt đi trước 2 con vịt, 2 con vịt đi sau 2 con vịt, 2 con vịt đi giữa 2 con vịt. Hỏi có mấy con vịt?", Arrays.asList("12 con vịt", "6 con vịt", "4 con vịt", "7 con vịt"), "4 con vịt"));

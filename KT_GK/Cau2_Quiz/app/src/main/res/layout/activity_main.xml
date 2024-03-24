@@ -4,6 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/textView_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:textStyle="bold"
+        android:textSize="10pt"/>
+
     <!-- Phần hiển thị thời gian và điểm số -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,7 +62,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="125dp"
             android:orientation="horizontal">
 
             <TextView
@@ -78,7 +87,7 @@
             <TextView
                 android:id="@+id/textView_question"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Gà và trứng, cái nào có trước?"
                 android:textSize="20sp" />
@@ -117,13 +126,13 @@
     </LinearLayout>
 
     <!-- Nút chuyển câu hỏi -->
-    <Button
-        android:id="@+id/btnNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:text="Câu hỏi kế tiếp" />
+<!--    <Button-->
+<!--        android:id="@+id/btnNext"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:text="Câu hỏi kế tiếp" />-->
 
 
 </LinearLayout>
