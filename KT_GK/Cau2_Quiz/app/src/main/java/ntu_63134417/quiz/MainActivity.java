@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -11,11 +12,9 @@ import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnOp1, btnOp2, btnOp3, btnOp4, btnNext;
     private int totalQuestions;
     private String correctAnser;
-    private int scrore = 0;
+    private int score = 0;
     private CountDownTimer countDownTimer;
     private long time_60s = 60000;
     @Override
@@ -79,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
         if(selected.equals(correctAnser)) {
             textView_state.setText("Chính xác !!!");
             textView_state.setTextColor(ContextCompat.getColor(this, R.color.green));
-            scrore +=10;
+            score +=10;
             btn.setBackgroundColor(ContextCompat.getColor(this, R.color.green));
-            textView_score.setText(String.valueOf(scrore));
+            textView_score.setText(String.valueOf(score));
 
             Handler handler = new Handler(Looper.getMainLooper());
             handler.postDelayed(new Runnable() {
@@ -107,7 +106,13 @@ public class MainActivity extends AppCompatActivity {
             }, 500);
         }
     }
+    private void endGame() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Trò chơi kết thúc");
+        builder.setMessage("Trò chơi đã kết thúc. Điểm của bạn là " + score);
 
+        builder.show();
+    }
     private void randomQuestion() {
         if (listQuestion.isEmpty()) {
             return;
@@ -134,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         listQuestion.remove(randomIndex);
     }
     private void StartCountDown() {
-        countDownTimer = new CountDownTimer(time_60s, 1000) {
+        countDownTimer = new CountDownTimer(5000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 time_60s = millisUntilFinished;
@@ -144,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
                 time_60s = 0;
                 updateCountDownText();
+                endGame();
             }
         }.start();
     }
