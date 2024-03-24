@@ -44,6 +44,49 @@
             android:textSize="10pt" />
     </LinearLayout>
 
-    
+    <!-- Phần hiển thị câu hỏi và phương án trả lời -->
+    <LinearLayout
+        android:id="@+id/layout_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Câu "
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView_sentence"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:hint="1"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=": "
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="câu hỏi"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        
+    </LinearLayout>
+
 
 </LinearLayout>
