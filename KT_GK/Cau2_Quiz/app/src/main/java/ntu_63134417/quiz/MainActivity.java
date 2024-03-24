@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private int totalQuestions;
     private String correctAnser;
     private int scrore = 0;
+    private CountDownTimer countDownTimer;
+    private long time_60s = 60000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         addQuestionsToList();
         totalQuestions = listQuestion.size();
         randomQuestion();
+        StartCountDown();
 
         btnOp1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         if(selected.equals(correctAnser)) {
             textView_state.setText("Chính xác !!!");
             textView_state.setTextColor(ContextCompat.getColor(this, R.color.green));
-            scrore +=1;
+            scrore +=10;
             btn.setBackgroundColor(ContextCompat.getColor(this, R.color.green));
             textView_score.setText(String.valueOf(scrore));
 
@@ -85,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     textView_state.setText("");
                     randomQuestion();
                 }
-            }, 1000);
+            }, 500);
         }
         else {
             textView_state.setText("Sai rồi !!!");
@@ -99,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     textView_state.setText("");
                     randomQuestion();
                 }
-            }, 1000);
+            }, 500);
         }
     }
 
@@ -127,6 +132,27 @@ public class MainActivity extends AppCompatActivity {
 
 
         listQuestion.remove(randomIndex);
+    }
+    private void StartCountDown() {
+        countDownTimer = new CountDownTimer(time_60s, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                time_60s = millisUntilFinished;
+                updateCountDownText();
+            }
+            @Override
+            public void onFinish() {
+                time_60s = 0;
+                updateCountDownText();
+            }
+        }.start();
+    }
+    private void updateCountDownText() {
+        int minutes = (int) (time_60s / 1000) / 60;
+        int seconds = (int) (time_60s / 1000) % 60;
+
+        String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
+        textView_time.setText(timeLeftFormatted);
     }
     private void getID() {
         textView_state = findViewById(R.id.textView_state);
