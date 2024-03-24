@@ -21,7 +21,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
     private List<Question> listQuestion = new ArrayList<>();
     private TextView textView_score, textView_time, textView_sentence, textView_question, textView_state;
-    private Button btnOp1, btnOp2, btnOp3, btnOp4, btnNext;
+    private Button btnOp1, btnOp2, btnOp3, btnOp4, btnReset;
     private int totalQuestions;
     private String correctAnser;
     private int score = 0;
@@ -67,12 +67,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        btnNext.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                randomQuestion();
-//            }
-//        });
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetGame();
+            }
+        });
     }
     @SuppressLint("ResourceAsColor")
     private void checkAnswer(String selected, Button btn) {
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         listQuestion.remove(randomIndex);
     }
     private void StartCountDown() {
-        countDownTimer = new CountDownTimer(5000, 1000) {
+        countDownTimer = new CountDownTimer(time_60s, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 time_60s = millisUntilFinished;
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
         btnOp2 = findViewById(R.id.btnOp2);
         btnOp3 = findViewById(R.id.btnOp3);
         btnOp4 = findViewById(R.id.btnOp4);
-//        btnNext = findViewById(R.id.btnNext);
+        btnReset = findViewById(R.id.btnReset);
     }
     private void addQuestionsToList() {
         // Thêm các câu hỏi vào danh sách
