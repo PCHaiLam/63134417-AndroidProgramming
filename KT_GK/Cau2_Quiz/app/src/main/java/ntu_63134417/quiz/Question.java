@@ -3,18 +3,18 @@ package ntu_63134417.quiz;
 import java.util.List;
 
 public class Question {
-    private String questionText;
+    private String question;
     private List<String> options;
     private String correctAnswer;
 
     public Question(String questionText, List<String> options, String correctAnswer) {
-        this.questionText = questionText;
+        this.question = questionText;
         this.options = options;
         this.correctAnswer = correctAnswer;
     }
 
-    public String getQuestionText() {
-        return questionText;
+    public String getQuestion() {
+        return question;
     }
 
     public List<String> getOptions() {

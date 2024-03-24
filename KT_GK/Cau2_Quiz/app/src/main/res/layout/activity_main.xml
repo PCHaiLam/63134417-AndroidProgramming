@@ -6,7 +6,6 @@
 
     <!-- Phần hiển thị thời gian và điểm số -->
     <LinearLayout
-        android:id="@+id/layout_score_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
