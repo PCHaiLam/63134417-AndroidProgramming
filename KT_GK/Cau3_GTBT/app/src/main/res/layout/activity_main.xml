@@ -330,8 +330,7 @@
             android:layout_height="1dp"
             android:background="#99FFFFFF"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp" />
+            />
         <LinearLayout
             android:id="@+id/linearLayout5"
             android:layout_width="match_parent"
@@ -422,8 +421,7 @@
             android:layout_height="1dp"
             android:background="#99FFFFFF"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp" />
+            />
         <LinearLayout
             android:id="@+id/linearLayout6"
             android:layout_width="match_parent"
@@ -514,8 +512,7 @@
             android:layout_height="1dp"
             android:background="#99FFFFFF"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp" />
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
