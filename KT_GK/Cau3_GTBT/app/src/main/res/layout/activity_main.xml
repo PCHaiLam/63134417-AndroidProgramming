@@ -304,6 +304,13 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Câu 3 _ Giới thiệu bản thân"
+                    android:textColor="@color/white"
+                    android:textSize="19dp" />
+
                 
             </LinearLayout>
         </LinearLayout>
