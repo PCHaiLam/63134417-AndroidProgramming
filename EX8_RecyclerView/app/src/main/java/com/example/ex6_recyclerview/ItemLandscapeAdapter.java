@@ -9,16 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class ItemLandscapeAdapter extends RecyclerView.Adapter<ItemLandscapeAdapter.ItemLandscapeViewHolder> {
     Context context;
-    ArrayList<LandScape> data;
+    static ArrayList<LandScape> data;
 
     public ItemLandscapeAdapter(Context context, ArrayList<LandScape> data) {
         this.context = context;
-        this.data = data;
+        ItemLandscapeAdapter.data = data;
     }
 
     @NonNull
@@ -39,15 +40,23 @@ public class ItemLandscapeAdapter extends RecyclerView.Adapter<ItemLandscapeAdap
     }
     @Override
     public int getItemCount() {
-        return 0;
+        return data.size();
     }
-    static final class ItemLandscapeViewHolder extends RecyclerView.ViewHolder {
+    static final class ItemLandscapeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textViewLandscape;
         ImageView imageViewLandscape;
         public ItemLandscapeViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             imageViewLandscape = itemView.findViewById(R.id.imageLandScape);
             textViewLandscape = itemView.findViewById(R.id.textLandScape);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int clickedPosition = getAdapterPosition();
+            LandScape land = data.get(clickedPosition);
+            Toast.makeText(v.getContext(), "Clicked: " + land.getLandScapeName(), Toast.LENGTH_SHORT).show();
         }
     }
 }
