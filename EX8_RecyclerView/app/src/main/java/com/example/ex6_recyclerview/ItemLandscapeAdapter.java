@@ -33,10 +33,10 @@ public class ItemLandscapeAdapter extends RecyclerView.Adapter<ItemLandscapeAdap
     public void onBindViewHolder(@NonNull ItemLandscapeViewHolder holder, int position) {
         LandScape land = data.get(position);
         holder.textViewLandscape.setText(land.getLandScapeName());
-            String packageName = holder.itemView.getContext().getPackageName();
-            String fileImageName = land.getLandScapeImage();
-            int imageID = holder.itemView.getResources().getIdentifier(fileImageName,"mipmap",packageName);
-            holder.imageViewLandscape.setImageResource(imageID);
+        String packageName = holder.itemView.getContext().getPackageName();
+        String fileImageName = land.getLandScapeImage();
+        int imageID = holder.itemView.getResources().getIdentifier(fileImageName,"mipmap",packageName);
+        holder.imageViewLandscape.setImageResource(imageID);
     }
     @Override
     public int getItemCount() {

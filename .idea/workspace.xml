@@ -7,7 +7,12 @@
     <layouts>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
         <config>
-          <theme>@style/Theme.EX6_RecyclerView</theme>
+          <theme>@style/Theme.EX9_ViewPaper2</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/card.xml">
+        <config>
+          <theme>@style/Theme.EX9_ViewPaper2</theme>
         </config>
       </layout>
     </layouts>
@@ -16,7 +21,15 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83811236-a68d-4c16-a356-370fcfd45367" name="Changes" comment="" />
+    <list default="true" id="561fe7a3-23bd-4e1f-8706-28fcaed6104c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/EX6_RecyclerView/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EX6_RecyclerView/.idea/deploymentTargetDropDown.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EX6_RecyclerView/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EX6_RecyclerView/.idea/migrations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EX6_RecyclerView/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EX6_RecyclerView/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EX6_RecyclerView/.idea/workspace.xml" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,10 +44,20 @@
       <ProjectState />
     </projectState>
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="layoutResourceFile" />
+      </list>
+    </option>
   </component>
-  <component name="ProjectId" id="2fUWEL7P77gLUS5pxQJ8pNWP0lb" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2fUlOHqi7TDKBTNkDRihp11td9K" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -47,12 +70,12 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Admin/Documents/GitHub/63134417-AndroidProgramming/EX6_RecyclerView"
+    "last_opened_file_path": "C:/Users/Admin/Documents/GitHub/63134417-AndroidProgramming/EX9_ViewPaper2"
   }
 }]]></component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
-      <module name="EX6_RecyclerView.app.main" />
+      <module name="EX9_ViewPaper2.app.main" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
@@ -122,11 +145,11 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="83811236-a68d-4c16-a356-370fcfd45367" name="Changes" comment="" />
-      <created>1713856023420</created>
+      <changelist id="561fe7a3-23bd-4e1f-8706-28fcaed6104c" name="Changes" comment="" />
+      <created>1713863503800</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1713856023420</updated>
+      <updated>1713863503800</updated>
     </task>
     <servers />
   </component>
