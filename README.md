@@ -1,2 +1,2 @@
 # 63134417-AndroidProgramming
-Lập trình Androi
+Lập trình Android
