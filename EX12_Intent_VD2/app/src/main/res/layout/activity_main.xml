@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:gravity="center_horizontal"
+tools:context=".MainActivity">
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFB18"
+    android:gravity="center"
+    android:paddingVertical="20dp"
+    android:text="Đố vui!"
+    android:textSize="30dp"
+    android:textStyle="bold" />
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:text="MÀN HÌNH CHÍNH"
+    android:textStyle="bold"
+    android:textSize="30dp"/>
+<TextView
+    android:id="@+id/textView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:text="Đăng nhập để tiếp tục"
+    android:textSize="20dp"/>
+
+<Button
+    android:id="@+id/btn"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="50dp"
+    android:text="Đăng nhập"/>
+
+</LinearLayout>
