@@ -1,6 +1,5 @@
 package com.pchailam.noteapp;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,24 +11,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
-    ArrayList<Card> list;
+public class MainActivity extends AppCompatActivity implements ListNoteAdapter.OnItemClickListener{
+    static ArrayList<Card> list;
     ListNoteAdapter adapter;
     RecyclerView recyclerView;
     private TextView textViewCount;
-    private EditText textViewTitle;
-    private EditText textViewContent;
-    private TextView textViewTime;
-    private TextView textViewDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,47 +36,51 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new ListNoteAdapter(this, list);
+        adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
 
-        ImageButton addNewNoteButton = findViewById(R.id.addNewNote);
-        addNewNoteButton.setOnClickListener(new View.OnClickListener() {
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageButton btnAddNewNode = findViewById(R.id.btnAddNote);
+        btnAddNewNode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewNote();
+                createNewNote();
             }
         });
     }
-    public void NewNote() {
+    public void createNewNote() {
         Intent intent = new Intent(this, InNoteActivity.class);
         startActivityForResult(intent,8000);
     }
     @SuppressLint("NotifyDataSetChanged")
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
 
         if (requestCode == 8000 && resultCode == RESULT_OK) {
-            Calendar calendar = Calendar.getInstance();
-            String time = String.valueOf(calendar.getTimeInMillis());
-
-            textViewTime = findViewById(R.id.tvTime);
-            textViewTime.setText(time);
-
-            String title = data.getStringExtra("title");
-            String content = data.getStringExtra("content");
-
-            Card newCard = new Card(title, content, time);
-
-            list.add(newCard);
-
-            adapter.notifyDataSetChanged();
+            if (intent.getBooleanExtra("updateData", false)) {
+                adapter.notifyDataSetChanged();
+                String sumNote = String.valueOf(list.size());
+                textViewCount.setText(sumNote);
+            }
         }
     }
-    private ArrayList<Card> getDataForRecycler() {
+    public ArrayList<Card> getDataForRecycler() {
         ArrayList<Card> list = new ArrayList<>();
-        list.add(new Card("First Exam","May 23, 2015","12/12/2012"));
-        list.add(new Card("Second Exam","June 09, 2015","12/12/2012"));
-        list.add(new Card("My Test Exam","April 27, 2017","12/12/2012"));
+        list.add(new Card("Kho Hà Quang","a b c d e f g h i j k l m n o p q r s","12:00 12/12/2012"));
+        list.add(new Card("Kho Vinpearl"," q ư e r t y u i o a s d f g","13:00 13/12/2012"));
+        list.add(new Card("Kho","ư ê â ă ô ơ","14:00 14/12/2012"));
         return list;
+    }
+    @Override
+    public void onItemClick(int position) {
+        Card clickedItem = list.get(position);
+
+        Intent intent = new Intent(this, InNoteActivity.class);
+        intent.putExtra("position", position);
+        intent.putExtra("title", clickedItem.getTitle());
+        intent.putExtra("content", clickedItem.getContent());
+        intent.putExtra("date", clickedItem.getDate());
+
+        startActivityForResult(intent, 8000);
     }
 }

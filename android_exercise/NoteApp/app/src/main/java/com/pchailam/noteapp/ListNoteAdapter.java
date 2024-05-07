@@ -9,15 +9,16 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ListNoteAdapter extends RecyclerView.Adapter<ListNoteAdapter.ListNoteViewHolder> {
     @SuppressLint("StaticFieldLeak")
     static Context context;
     static ArrayList<Card> data;
+    private static OnItemClickListener mListener;
 
     public ListNoteAdapter(Context context, ArrayList<Card> data) {
         ListNoteAdapter.context = context;
@@ -38,11 +39,19 @@ public class ListNoteAdapter extends RecyclerView.Adapter<ListNoteAdapter.ListNo
         holder.textViewTitle.setText(card.getTitle());
         holder.textViewContent.setText(card.getContent());
         holder.textViewDate.setText(card.getDate());
+
     }
 
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 
     static final class ListNoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -56,15 +65,16 @@ public class ListNoteAdapter extends RecyclerView.Adapter<ListNoteAdapter.ListNo
             textViewContent = itemView.findViewById(R.id.tvContent);
             textViewDate = itemView.findViewById(R.id.tvDate);
 
+            itemView.setOnClickListener(this);
         }
         @Override
         public void onClick(View v) {
-            int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION) {
-                Intent intent = new Intent(context, InNoteActivity.class);
-                context.startActivity(intent);
+            if (mListener != null) {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    mListener.onItemClick(position);
+                }
             }
-
         }
     }
 }
