@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.PCHaiLam.ex9_viewpaper2.R;
+
 import java.util.ArrayList;
 
 public class ItemExamAdapter extends RecyclerView.Adapter<ItemExamAdapter.ItemExamViewHolder> {
