@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class MyDatabase extends SQLiteOpenHelper {
     private final Context context;
     private static final String DATABASE_NAME = "NoteLibrary.db";
@@ -68,6 +70,7 @@ public class MyDatabase extends SQLiteOpenHelper {
         } else {
             Toast.makeText(context, "Ghi chú đã được thêm", Toast.LENGTH_SHORT).show();
         }
+        db.close();
     }
 //    void addType(String type) {
 //        SQLiteDatabase db = this.getWritableDatabase();
@@ -82,13 +85,31 @@ public class MyDatabase extends SQLiteOpenHelper {
 //            Toast.makeText(context, "Loại ghi chú đã được thêm", Toast.LENGTH_SHORT).show();
 //        }
 //    }
-    Cursor readALlData() {
-        String query = "SELECT * FROM " + TABLE_NAME;
-        SQLiteDatabase db = this.getReadableDatabase();
+//    Cursor readData() {
+//        SQLiteDatabase db = getReadableDatabase();
+//
+//        String query = "SELECT * FROM " + TABLE_NAME;
+//
+//        Cursor cursor = null;
+//        if(db != null)
+//            cursor = db.rawQuery(query, null);
+//        return cursor;
+//    }
+    public ArrayList<Note> readData() {
+        SQLiteDatabase db = getReadableDatabase();
 
-        Cursor cursor = null;
-        if(db != null)
-            cursor = db.rawQuery(query, null);
-        return cursor;
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+
+        ArrayList<Note> list = new ArrayList<>();
+
+        if(cursor.moveToFirst()) {
+            do {
+                list.add(new Note(cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3)));
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
     }
 }

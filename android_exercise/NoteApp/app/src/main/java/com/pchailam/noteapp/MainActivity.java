@@ -17,10 +17,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements ListNoteAdapter.OnItemClickListener{
     static ArrayList<Note> list;
-    ListNoteAdapter adapter;
-    RecyclerView recyclerView;
+    private ListNoteAdapter adapter;
+    private RecyclerView recyclerView;
     TextView textViewCount;
-    MyDatabase myDatabase;
+    private MyDatabase myDatabase;
 
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
@@ -28,17 +28,20 @@ public class MainActivity extends AppCompatActivity implements ListNoteAdapter.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        list = new ArrayList<>();
+        myDatabase = new MyDatabase(MainActivity.this);
         list = getDataForRecycler();
+        list = myDatabase.readData();
 
-        String sumNote = String.valueOf(list.size());
         textViewCount = findViewById(R.id.countNote);
-        textViewCount.setText(sumNote);
+        textViewCount.setText(String.valueOf(list.size()));
 
         recyclerView = findViewById(R.id.recyclerNote);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+
+        adapter = new ListNoteAdapter(MainActivity.this, list);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new ListNoteAdapter(this, list);
         adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
 

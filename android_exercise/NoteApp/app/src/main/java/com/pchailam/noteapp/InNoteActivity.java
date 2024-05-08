@@ -22,6 +22,7 @@ public class InNoteActivity extends AppCompatActivity {
     TextView textViewTime, textViewDateInNote;
     String dateTime = getCurrentDateTime();
     int position;
+    private MyDatabase myDatabase;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class InNoteActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SaveNote();
+                finish();
             }
         });
 
@@ -75,7 +76,7 @@ public class InNoteActivity extends AppCompatActivity {
         String title = editTextTitle.getText().toString();
         String content = editTextContent.getText().toString();
 
-        MyDatabase myDatabase = new MyDatabase(InNoteActivity.this);
+        myDatabase = new MyDatabase(InNoteActivity.this);
         myDatabase.addNote(title, content, dateTime);
 
         if (!title.isEmpty() && !content.isEmpty()) {
@@ -99,8 +100,8 @@ public class InNoteActivity extends AppCompatActivity {
         textViewDateInNote = findViewById(R.id.tvDateInNote);
         textViewDateInNote.setText(date);
 
-        Note newCard = new Note("New Note", "Content of New Note", dateTime);
-        MainActivity.list.add(newCard);
+//        Note newCard = new Note("New Note", "Content of New Note", dateTime);
+//        MainActivity.list.add(newCard);
 
         Intent intent = new Intent();
         intent.putExtra("updateData", true);
