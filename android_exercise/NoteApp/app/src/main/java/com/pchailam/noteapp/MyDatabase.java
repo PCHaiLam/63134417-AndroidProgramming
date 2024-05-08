@@ -56,20 +56,48 @@ public class MyDatabase extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void addNote(String title, String content, String dateTime) {
+    void addNote(Note note, int position) {
+        int pos = position +1;
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
 
-        cv.put(COLUMN_TITLE, title);
-        cv.put(COLUMN_CONTENT, content);
-        cv.put(COLUMN_DATE, dateTime);
-
-        long result = db.insert(TABLE_NAME, null, cv);
-        if (result == -1) {
-            Toast.makeText(context, "Lỗi khi thêm ghi chú", Toast.LENGTH_SHORT).show();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(pos)});
+        if(cursor != null && cursor.getCount() > 0) {
+            editNote(note,pos);
         } else {
-            Toast.makeText(context, "Ghi chú đã được thêm", Toast.LENGTH_SHORT).show();
+            ContentValues cv = new ContentValues();
+            cv.put(COLUMN_TITLE, note.getTitle());
+            cv.put(COLUMN_CONTENT, note.getContent());
+            cv.put(COLUMN_DATE, note.getDate());
+
+            long result = db.insert(TABLE_NAME, null, cv);
+            if (result == -1) {
+                Toast.makeText(context, "Lỗi khi thêm ghi chú", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Ghi chú đã được thêm", Toast.LENGTH_SHORT).show();
+            }
         }
+
+        if (cursor != null) {
+            cursor.close();
+        }
+        db.close();
+    }
+    void editNote(Note note, int pos) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_TITLE, note.getTitle());
+        cv.put(COLUMN_CONTENT, note.getContent());
+        cv.put(COLUMN_DATE, note.getDate());
+
+        long result = db.update(TABLE_NAME, cv, COLUMN_ID + " = ?", new String[]{String.valueOf(pos)});
+        if (result > 0) {
+            Toast.makeText(context, "Ghi chú đã được chỉnh sửa", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Lỗi khi chỉnh sửa ghi chú", Toast.LENGTH_SHORT).show();
+        }
+
         db.close();
     }
 //    void addType(String type) {

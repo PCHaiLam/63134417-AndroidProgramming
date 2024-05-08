@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements ListNoteAdapter.O
 
         list = new ArrayList<>();
         myDatabase = new MyDatabase(MainActivity.this);
-        list = getDataForRecycler();
         list = myDatabase.readData();
 
         textViewCount = findViewById(R.id.countNote);
@@ -77,13 +76,6 @@ public class MainActivity extends AppCompatActivity implements ListNoteAdapter.O
                 textViewCount.setText(sumNote);
             }
         }
-    }
-    public ArrayList<Note> getDataForRecycler() {
-        ArrayList<Note> list = new ArrayList<>();
-        list.add(new Note("Kho Hà Quang","a b c d e f g h i j k l m n o p q r s","12:00 12/12/2012"));
-        list.add(new Note("Kho Vinpearl"," q ư e r t y u i o a s d f g","13:00 13/12/2012"));
-        list.add(new Note("Kho","ư ê â ă ô ơ","14:00 14/12/2012"));
-        return list;
     }
     @Override
     public void onItemClick(int position) {

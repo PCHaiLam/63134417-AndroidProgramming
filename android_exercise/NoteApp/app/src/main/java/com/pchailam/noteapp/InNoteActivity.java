@@ -76,8 +76,10 @@ public class InNoteActivity extends AppCompatActivity {
         String title = editTextTitle.getText().toString();
         String content = editTextContent.getText().toString();
 
+        Note newNote= new Note(title,content,dateTime);
+
         myDatabase = new MyDatabase(InNoteActivity.this);
-        myDatabase.addNote(title, content, dateTime);
+        myDatabase.addNote(newNote, position);
 
         if (!title.isEmpty() && !content.isEmpty()) {
             MainActivity.list.get(position).setTitle(title);
@@ -86,8 +88,6 @@ public class InNoteActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.putExtra("updateData", true);
             setResult(RESULT_OK, intent);
-
-            Toast.makeText(getApplicationContext(), "Đã lưu note", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
@@ -99,9 +99,6 @@ public class InNoteActivity extends AppCompatActivity {
         textViewTime.setText(time);
         textViewDateInNote = findViewById(R.id.tvDateInNote);
         textViewDateInNote.setText(date);
-
-//        Note newCard = new Note("New Note", "Content of New Note", dateTime);
-//        MainActivity.list.add(newCard);
 
         Intent intent = new Intent();
         intent.putExtra("updateData", true);
