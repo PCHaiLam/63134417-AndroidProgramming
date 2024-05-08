@@ -1,17 +1,23 @@
 package com.pchailam.noteapp;
 
-import java.util.Date;
-
-public class Card {
+public class Note {
     private String title;
     private String content;
     private String date;
 
-    public Card(String title, String content, String date) {
+    public Note(String title, String content, String date) {
         this.title = title;
         this.content = content;
         this.date = date;
     }
+
+//    public String getId() {
+//        return id;
+//    }
+//
+//    public void setId(String id) {
+//        this.id = id;
+//    }
 
     public String getTitle() {
         return title;
@@ -36,4 +42,12 @@ public class Card {
     public void setDate(String date) {
         this.date = date;
     }
+
+//    public String getId_type() {
+//        return id_type;
+//    }
+//
+//    public void setId_type(String id_type) {
+//        this.id_type = id_type;
+//    }
 }

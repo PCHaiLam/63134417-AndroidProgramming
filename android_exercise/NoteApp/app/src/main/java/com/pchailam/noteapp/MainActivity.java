@@ -6,20 +6,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements ListNoteAdapter.OnItemClickListener{
-    static ArrayList<Card> list;
+    static ArrayList<Note> list;
     ListNoteAdapter adapter;
     RecyclerView recyclerView;
-    private TextView textViewCount;
+    TextView textViewCount;
+    MyDatabase myDatabase;
 
+    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,14 @@ public class MainActivity extends AppCompatActivity implements ListNoteAdapter.O
                 createNewNote();
             }
         });
+//        btnMenu = findViewById(R.id.btnMenu);
+//        btnMenu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                PopupMenu popupMenu = new PopupMenu(MainActivity.this, btnMenu);
+//            }
+//        });
+
     }
     public void createNewNote() {
         Intent intent = new Intent(this, InNoteActivity.class);
@@ -64,16 +75,16 @@ public class MainActivity extends AppCompatActivity implements ListNoteAdapter.O
             }
         }
     }
-    public ArrayList<Card> getDataForRecycler() {
-        ArrayList<Card> list = new ArrayList<>();
-        list.add(new Card("Kho Hà Quang","a b c d e f g h i j k l m n o p q r s","12:00 12/12/2012"));
-        list.add(new Card("Kho Vinpearl"," q ư e r t y u i o a s d f g","13:00 13/12/2012"));
-        list.add(new Card("Kho","ư ê â ă ô ơ","14:00 14/12/2012"));
+    public ArrayList<Note> getDataForRecycler() {
+        ArrayList<Note> list = new ArrayList<>();
+        list.add(new Note("Kho Hà Quang","a b c d e f g h i j k l m n o p q r s","12:00 12/12/2012"));
+        list.add(new Note("Kho Vinpearl"," q ư e r t y u i o a s d f g","13:00 13/12/2012"));
+        list.add(new Note("Kho","ư ê â ă ô ơ","14:00 14/12/2012"));
         return list;
     }
     @Override
     public void onItemClick(int position) {
-        Card clickedItem = list.get(position);
+        Note clickedItem = list.get(position);
 
         Intent intent = new Intent(this, InNoteActivity.class);
         intent.putExtra("position", position);

@@ -18,11 +18,9 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class InNoteActivity extends AppCompatActivity {
-    private EditText editTextTitle;
-    private EditText editTextContent;
-    private TextView textViewTime;
-    private TextView textViewDateInNote;
-    private String dateTime = getCurrentDateTime();
+    EditText editTextTitle, editTextContent;
+    TextView textViewTime, textViewDateInNote;
+    String dateTime = getCurrentDateTime();
     int position;
     @SuppressLint("MissingInflatedId")
     @Override
@@ -48,7 +46,8 @@ public class InNoteActivity extends AppCompatActivity {
             editTextContent.setText(intent.getStringExtra("content"));
             textViewTime.setText(time);
             textViewDateInNote.setText(date);
-        } else {
+        }
+        else {
             createNewNote();
         }
 
@@ -70,8 +69,14 @@ public class InNoteActivity extends AppCompatActivity {
         });
     }
     public void SaveNote() {
+        editTextTitle = findViewById(R.id.edtTitle);
+        editTextContent = findViewById(R.id.edtContent);
+
         String title = editTextTitle.getText().toString();
         String content = editTextContent.getText().toString();
+
+        MyDatabase myDatabase = new MyDatabase(InNoteActivity.this);
+        myDatabase.addNote(title, content, dateTime);
 
         if (!title.isEmpty() && !content.isEmpty()) {
             MainActivity.list.get(position).setTitle(title);
@@ -81,7 +86,7 @@ public class InNoteActivity extends AppCompatActivity {
             intent.putExtra("updateData", true);
             setResult(RESULT_OK, intent);
 
-            Toast.makeText(getApplicationContext(), "Đã cập nhật note", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Đã lưu note", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
@@ -94,15 +99,13 @@ public class InNoteActivity extends AppCompatActivity {
         textViewDateInNote = findViewById(R.id.tvDateInNote);
         textViewDateInNote.setText(date);
 
-        Card newCard = new Card("New Note", "Content of New Note", dateTime);
+        Note newCard = new Note("New Note", "Content of New Note", dateTime);
         MainActivity.list.add(newCard);
 
         Intent intent = new Intent();
         intent.putExtra("updateData", true);
         setResult(RESULT_OK, intent);
-        finish();
     }
-
     private String getCurrentDateTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault());
         return sdf.format(Calendar.getInstance().getTime());

@@ -5,11 +5,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,10 +15,10 @@ import java.util.ArrayList;
 public class ListNoteAdapter extends RecyclerView.Adapter<ListNoteAdapter.ListNoteViewHolder> {
     @SuppressLint("StaticFieldLeak")
     static Context context;
-    static ArrayList<Card> data;
+    static ArrayList<Note> data;
     private static OnItemClickListener mListener;
 
-    public ListNoteAdapter(Context context, ArrayList<Card> data) {
+    public ListNoteAdapter(Context context, ArrayList<Note> data) {
         ListNoteAdapter.context = context;
         ListNoteAdapter.data = data;
     }
@@ -35,7 +33,7 @@ public class ListNoteAdapter extends RecyclerView.Adapter<ListNoteAdapter.ListNo
 
     @Override
     public void onBindViewHolder(@NonNull ListNoteAdapter.ListNoteViewHolder holder, int position) {
-        Card card =data.get(position);
+        Note card =data.get(position);
         holder.textViewTitle.setText(card.getTitle());
         holder.textViewContent.setText(card.getContent());
         holder.textViewDate.setText(card.getDate());
@@ -55,9 +53,8 @@ public class ListNoteAdapter extends RecyclerView.Adapter<ListNoteAdapter.ListNo
     }
 
     static final class ListNoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView textViewTitle;
-        TextView textViewContent;
-        TextView textViewDate;
+        TextView textViewTitle, textViewContent, textViewDate;
+
         @SuppressLint("WrongViewCast")
         public ListNoteViewHolder(@NonNull View itemView) {
             super(itemView);
