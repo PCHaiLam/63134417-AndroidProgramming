@@ -33,7 +33,7 @@ public class ListNoteAdapter extends RecyclerView.Adapter<ListNoteAdapter.ListNo
     @Override
     public ListNoteAdapter.ListNoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.grid_style_note, parent, false);
+        View view = layoutInflater.inflate(R.layout.list_style_note, parent, false);
         return new ListNoteViewHolder(view);
     }
 
@@ -105,7 +105,7 @@ public class ListNoteAdapter extends RecyclerView.Adapter<ListNoteAdapter.ListNo
             // https://www.geeksforgeeks.org/popup-menu-in-android-with-example/?ref=header_search
             PopupMenu popupMenu = new PopupMenu(context, btnMenu);
             popupMenu.setOnMenuItemClickListener(this);
-            popupMenu.inflate(R.menu.popup_menu);
+            popupMenu.inflate(R.menu.popup_menu_on_note);
             popupMenu.show();
         }
         @Override

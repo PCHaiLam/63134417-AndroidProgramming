@@ -43,20 +43,45 @@ public class MainActivity extends AppCompatActivity implements ListNoteAdapter.O
 
         adapter = new ListNoteAdapter(MainActivity.this, list);
 
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+        LinearLayoutManager listLayoutManager = new LinearLayoutManager(MainActivity.this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this,2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
 
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageButton btnAddNewNode = findViewById(R.id.btnAddNote);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageButton btnAddNewNode, btnMenu;
+        btnAddNewNode = findViewById(R.id.btnAddNote);
         btnAddNewNode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createNewNote();
             }
         });
+        btnMenu = findViewById(R.id.btnMenuNote);
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, btnMenu);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int id = item.getItemId();
+                        if (id == R.id.grid_view) {
+                            recyclerView.setLayoutManager(gridLayoutManager);
+                            return true;
+                        } else if (id == R.id.list_view) {
+                            recyclerView.setLayoutManager(listLayoutManager);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.inflate(R.menu.popup_menu_app);
+                popupMenu.show();
+            }
+        });
+
     }
     public void createNewNote() {
         Intent intent = new Intent(this, InNoteActivity.class);
