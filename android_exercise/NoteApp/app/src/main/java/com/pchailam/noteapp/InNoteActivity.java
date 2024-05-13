@@ -20,7 +20,6 @@ import java.util.Locale;
 public class InNoteActivity extends AppCompatActivity {
     EditText editTextTitle, editTextContent;
     TextView textViewTime, textViewDateInNote;
-    String dateTime = getCurrentDateTime();
     int position;
     private MyDatabase myDatabase;
     @SuppressLint("MissingInflatedId")
@@ -36,17 +35,18 @@ public class InNoteActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         position = intent.getIntExtra("position", -1);
-        if (position != -1) {
 
-            dateTime = intent.getStringExtra("date");
+        if (position != -1) {
+            String dateTime = intent.getStringExtra("date");
+
             String[] part = dateTime.split(" ");
             String time = part[0];
             String date = part[1];
+            textViewTime.setText(time);
+            textViewDateInNote.setText(date);
 
             editTextTitle.setText(intent.getStringExtra("title"));
             editTextContent.setText(intent.getStringExtra("content"));
-            textViewTime.setText(time);
-            textViewDateInNote.setText(date);
         }
         else {
             createNewNote();
@@ -70,18 +70,22 @@ public class InNoteActivity extends AppCompatActivity {
         });
     }
     public void SaveNote() {
-        editTextTitle = findViewById(R.id.edtTitle);
-        editTextContent = findViewById(R.id.edtContent);
-
         String title = editTextTitle.getText().toString();
         String content = editTextContent.getText().toString();
-
-        Note newNote= new Note(title,content,dateTime);
+        String newDateTime = getCurrentDateTime();
 
         myDatabase = new MyDatabase(InNoteActivity.this);
-        myDatabase.addNote(newNote, position);
 
-        if (!title.isEmpty() && !content.isEmpty()) {
+        if (position != -1) {
+            Note newNote= new Note(MainActivity.list.get(position).getId(),title,content,newDateTime);
+            myDatabase.editNote(newNote,MainActivity.list.get(position).getId());
+        }
+        else {
+            Note newNote= new Note(position,title,content,newDateTime);
+            myDatabase.addNote(newNote);
+        }
+
+        if (!title.isEmpty()) {
             MainActivity.list.get(position).setTitle(title);
             MainActivity.list.get(position).setContent(content);
 
@@ -92,6 +96,7 @@ public class InNoteActivity extends AppCompatActivity {
         }
     }
     public void createNewNote() {
+        String dateTime = getCurrentDateTime();
         String time = dateTime.split(" ")[0];
         String date = dateTime.split(" ")[1];
 
@@ -100,11 +105,8 @@ public class InNoteActivity extends AppCompatActivity {
         textViewDateInNote = findViewById(R.id.tvDateInNote);
         textViewDateInNote.setText(date);
 
-        Intent intent = new Intent();
-        intent.putExtra("updateData", true);
-        setResult(RESULT_OK, intent);
     }
-    private String getCurrentDateTime() {
+    public String getCurrentDateTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault());
         return sdf.format(Calendar.getInstance().getTime());
     }

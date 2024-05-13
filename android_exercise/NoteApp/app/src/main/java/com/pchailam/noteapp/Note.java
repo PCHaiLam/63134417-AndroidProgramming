@@ -5,8 +5,16 @@ public class Note {
     private String title;
     private String content;
     private String date;
+    private InNoteActivity inNoteActivity;
 
-    public Note(String title, String content, String date) {
+    public Note() {
+        title = "New title";
+        content = "New content";
+        date = inNoteActivity.getCurrentDateTime();
+    }
+
+    public Note(int id, String title, String content, String date) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.date = date;

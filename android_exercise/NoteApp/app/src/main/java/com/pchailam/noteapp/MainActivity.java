@@ -1,6 +1,7 @@
 package com.pchailam.noteapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,8 +9,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,8 +42,10 @@ public class MainActivity extends AppCompatActivity implements ListNoteAdapter.O
         recyclerView = findViewById(R.id.recyclerNote);
 
         adapter = new ListNoteAdapter(MainActivity.this, list);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-        recyclerView.setLayoutManager(layoutManager);
+
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this,2);
+        recyclerView.setLayoutManager(gridLayoutManager);
 
         adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
@@ -51,14 +57,6 @@ public class MainActivity extends AppCompatActivity implements ListNoteAdapter.O
                 createNewNote();
             }
         });
-//        btnMenu = findViewById(R.id.btnMenu);
-//        btnMenu.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                PopupMenu popupMenu = new PopupMenu(MainActivity.this, btnMenu);
-//            }
-//        });
-
     }
     public void createNewNote() {
         Intent intent = new Intent(this, InNoteActivity.class);
@@ -72,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements ListNoteAdapter.O
         if (requestCode == 8000 && resultCode == RESULT_OK) {
             if (intent.getBooleanExtra("updateData", false)) {
                 adapter.notifyDataSetChanged();
+
                 String sumNote = String.valueOf(list.size());
                 textViewCount.setText(sumNote);
             }

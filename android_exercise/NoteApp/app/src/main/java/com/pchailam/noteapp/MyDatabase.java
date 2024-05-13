@@ -19,10 +19,10 @@ public class MyDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_TITLE = "title";
     private static final String COLUMN_CONTENT = "content";
     private static final String COLUMN_DATE = "date";
-//    private static final String COLUMN_ID_TYPE_foreign = "type";
-//    private static final String TABLE_TYPE_NOTE = "type_note";
-//    private static final String COLUMN_ID_TYPE = "id";
-//    private static final String COLUMN_TYPE = "type";
+    private static final String COLUMN_ID_TYPE_foreign = "type";
+    private static final String TABLE_TYPE_NOTE = "type_note";
+    private static final String COLUMN_ID_TYPE = "id";
+    private static final String COLUMN_TYPE = "type";
 
 
     private static final int DATABASE_VERSION = 1;
@@ -48,42 +48,13 @@ public class MyDatabase extends SQLiteOpenHelper {
 //                "FOREIGN KEY(" + COLUMN_ID_TYPE + ") REFERENCES " + TABLE_TYPE_NOTE + "(" + COLUMN_ID_TYPE + "))";
         db.execSQL(createNoteTableQuery);
     }
-
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
 
-    void addNote(Note note, int position) {
-        int pos = position +1;
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(pos)});
-        if(cursor != null && cursor.getCount() > 0) {
-            editNote(note,pos);
-        } else {
-            ContentValues cv = new ContentValues();
-            cv.put(COLUMN_TITLE, note.getTitle());
-            cv.put(COLUMN_CONTENT, note.getContent());
-            cv.put(COLUMN_DATE, note.getDate());
-
-            long result = db.insert(TABLE_NAME, null, cv);
-            if (result == -1) {
-                Toast.makeText(context, "Lỗi khi thêm ghi chú", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, "Ghi chú đã được thêm", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        if (cursor != null) {
-            cursor.close();
-        }
-        db.close();
-    }
-    void editNote(Note note, int pos) {
+    void addNote(Note note) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
@@ -91,7 +62,24 @@ public class MyDatabase extends SQLiteOpenHelper {
         cv.put(COLUMN_CONTENT, note.getContent());
         cv.put(COLUMN_DATE, note.getDate());
 
-        long result = db.update(TABLE_NAME, cv, COLUMN_ID + " = ?", new String[]{String.valueOf(pos)});
+        long result = db.insert(TABLE_NAME, null, cv);
+        if (result == -1) {
+            Toast.makeText(context, "Lỗi khi thêm ghi chú", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Ghi chú đã được thêm", Toast.LENGTH_SHORT).show();
+        }
+
+        db.close();
+    }
+    void editNote(Note note, int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_TITLE, note.getTitle());
+        cv.put(COLUMN_CONTENT, note.getContent());
+        cv.put(COLUMN_DATE, note.getDate());
+
+        long result = db.update(TABLE_NAME, cv, COLUMN_ID + " = ?", new String[]{String.valueOf(id)});
         if (result > 0) {
             Toast.makeText(context, "Ghi chú đã được chỉnh sửa", Toast.LENGTH_SHORT).show();
         } else {
@@ -113,16 +101,6 @@ public class MyDatabase extends SQLiteOpenHelper {
 //            Toast.makeText(context, "Loại ghi chú đã được thêm", Toast.LENGTH_SHORT).show();
 //        }
 //    }
-//    Cursor readData() {
-//        SQLiteDatabase db = getReadableDatabase();
-//
-//        String query = "SELECT * FROM " + TABLE_NAME;
-//
-//        Cursor cursor = null;
-//        if(db != null)
-//            cursor = db.rawQuery(query, null);
-//        return cursor;
-//    }
     public ArrayList<Note> readData() {
         SQLiteDatabase db = getReadableDatabase();
 
@@ -132,7 +110,8 @@ public class MyDatabase extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst()) {
             do {
-                list.add(new Note(cursor.getString(1),
+                list.add(new Note(cursor.getInt(0),
+                        cursor.getString(1),
                         cursor.getString(2),
                         cursor.getString(3)));
             }while (cursor.moveToNext());
