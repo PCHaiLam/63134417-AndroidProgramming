@@ -109,11 +109,11 @@ public class InNoteActivity extends AppCompatActivity {
         myDatabase = new MyDatabase(InNoteActivity.this);
 
         if (position != -1) {
-            Note newNote= new Note(MainActivity.list.get(position).getId(),title,content,newDateTime);
+            Note newNote= new Note(MainActivity.list.get(position).getId(),title,content,newDateTime,1);
             myDatabase.editNote(newNote,MainActivity.list.get(position).getId());
         }
         else {
-            Note newNote= new Note(position,title,content,newDateTime);
+            Note newNote= new Note(position,title,content,newDateTime,1);
             myDatabase.addNote(newNote);
         }
 

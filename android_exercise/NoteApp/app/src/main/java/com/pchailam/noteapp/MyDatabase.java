@@ -19,7 +19,7 @@ public class MyDatabase extends SQLiteOpenHelper {
     private static final String COLUMN_TITLE = "title";
     private static final String COLUMN_CONTENT = "content";
     private static final String COLUMN_DATE = "date";
-    private static final String COLUMN_ID_TYPE_foreign = "id_type";
+    private static final String COLUMN_ID_TYPE_FK = "type";
     private static final String TABLE_TYPE_NOTE = "type_note";
     private static final String COLUMN_ID_TYPE = "id";
     private static final String COLUMN_TYPE = "type";
@@ -31,20 +31,24 @@ public class MyDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        // Tạo bảng type_note
         String createTypeNoteTableQuery = "CREATE TABLE " + TABLE_TYPE_NOTE + " (" +
                 COLUMN_ID_TYPE + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_TYPE + " TEXT)";
+                COLUMN_TYPE + " TEXT);";
         db.execSQL(createTypeNoteTableQuery);
 
+        // Tạo bảng note
         String createNoteTableQuery = "CREATE TABLE " + TABLE_NAME + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_TITLE + " TEXT, " +
                 COLUMN_CONTENT + " TEXT, " +
-                COLUMN_DATE + " TEXT);";
-//                COLUMN_ID_TYPE + " INTEGER, " +
-//                "FOREIGN KEY(" + COLUMN_ID_TYPE + ") REFERENCES " + TABLE_TYPE_NOTE + "(" + COLUMN_ID_TYPE + "))";
+                COLUMN_DATE + " TEXT, " +
+                COLUMN_ID_TYPE_FK + " INTEGER, " +
+                "FOREIGN KEY(" + COLUMN_ID_TYPE_FK + ") REFERENCES " + TABLE_TYPE_NOTE + "(" + COLUMN_ID_TYPE + "));";
         db.execSQL(createNoteTableQuery);
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
@@ -59,6 +63,7 @@ public class MyDatabase extends SQLiteOpenHelper {
         cv.put(COLUMN_TITLE, note.getTitle());
         cv.put(COLUMN_CONTENT, note.getContent());
         cv.put(COLUMN_DATE, note.getDate());
+        cv.put(COLUMN_ID_TYPE_FK, note.getId_type());
 
         long result = db.insert(TABLE_NAME, null, cv);
         if (result == -1) {
@@ -124,8 +129,8 @@ public class MyDatabase extends SQLiteOpenHelper {
                 list.add(new Note(cursor.getInt(0),
                         cursor.getString(1),
                         cursor.getString(2),
-                        cursor.getString(3)
-//                        cursor.getInt(4)
+                        cursor.getString(3),
+                        cursor.getInt(4)
                 ));
             }while (cursor.moveToNext());
         }

@@ -7,12 +7,12 @@ public class Note {
     private String date;
     private int id_type;
 
-    public Note(int id, String title, String content, String date) {
+    public Note(int id, String title, String content, String date,int id_type) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.date = date;
-//        this.id_type=id_type;
+        this.id_type=id_type;
     }
 
     public int getId() {

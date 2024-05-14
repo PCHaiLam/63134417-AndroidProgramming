@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/notes"
+        android:title="Notes"
+        android:icon="@drawable/ic_note_foreground"/>
+    <item
+        android:id="@+id/types"
+        android:title="Type"
+        android:icon="@drawable/ic_types_foreground"/>
+</menu>

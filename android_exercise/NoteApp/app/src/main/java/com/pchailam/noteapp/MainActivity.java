@@ -1,6 +1,8 @@
 package com.pchailam.noteapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,14 +19,20 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements ListNoteAdapter.OnItemClickListener{
+public class MainActivity extends AppCompatActivity implements ListNoteAdapter.OnItemClickListener {
     static ArrayList<Note> list;
     private ListNoteAdapter adapter;
     private RecyclerView recyclerView;
     TextView textViewCount;
     private MyDatabase myDatabase;
+    BottomNavigationView bottomNavigationView;
+    NotesFragment notesFragment = new NotesFragment();
+    TypeFragment typeFragment = new TypeFragment();
 
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
@@ -82,7 +90,9 @@ public class MainActivity extends AppCompatActivity implements ListNoteAdapter.O
                 popupMenu.show();
             }
         });
-
+//        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+//        bottomNavigationView.setOnNavigationItemReselectedListener((BottomNavigationView.OnNavigationItemReselectedListener) this);
+//        bottomNavigationView.setSelectedItemId(R.id.notes);
     }
     public void createNewNote() {
         Intent intent = new Intent(this, InNoteActivity.class);
@@ -111,7 +121,26 @@ public class MainActivity extends AppCompatActivity implements ListNoteAdapter.O
         intent.putExtra("title", clickedItem.getTitle());
         intent.putExtra("content", clickedItem.getContent());
         intent.putExtra("date", clickedItem.getDate());
+        intent.putExtra("type", clickedItem.getId_type());
 
         startActivityForResult(intent, 8000);
     }
+
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        int id = item.getItemId();
+//
+//        if (id == R.id.notes) {
+//            transaction.replace(R.id.flFragment, notesFragment);
+//        } else if (id == R.id.types) {
+//            transaction.replace(R.id.flFragment, typeFragment);
+//        } else {
+//            return false;
+//        }
+//
+//        transaction.commit();
+//        return true;
+//    }
+
 }
