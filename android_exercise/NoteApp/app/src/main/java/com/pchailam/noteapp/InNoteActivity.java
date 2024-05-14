@@ -6,9 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,8 @@ public class InNoteActivity extends AppCompatActivity {
         textViewTime = findViewById(R.id.tvTime);
         textViewDateInNote = findViewById(R.id.tvDateInNote);
 
+        myDatabase = new MyDatabase(InNoteActivity.this);
+
         Intent intent = getIntent();
         position = intent.getIntExtra("position", -1);
 
@@ -52,12 +56,40 @@ public class InNoteActivity extends AppCompatActivity {
             createNewNote();
         }
 
-
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        ImageButton btnMenu = findViewById(R.id.btnMenuInNote);
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(InNoteActivity.this, btnMenu);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int id = item.getItemId();
+
+                        if (id == R.id.deleteInNote) {
+                            myDatabase.deleteNote(MainActivity.list.get(position).getId());
+
+                            MainActivity.list.remove(position);
+                            Intent intent = new Intent();
+                            intent.putExtra("updateData", true);
+                            setResult(RESULT_OK, intent);
+                            finish();
+
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.inflate(R.menu.popup_menu_in_note);
+                popupMenu.show();
             }
         });
 

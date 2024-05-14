@@ -5,19 +5,14 @@ public class Note {
     private String title;
     private String content;
     private String date;
-    private InNoteActivity inNoteActivity;
-
-    public Note() {
-        title = "New title";
-        content = "New content";
-        date = inNoteActivity.getCurrentDateTime();
-    }
+    private int id_type;
 
     public Note(int id, String title, String content, String date) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.date = date;
+//        this.id_type=id_type;
     }
 
     public int getId() {
@@ -52,11 +47,11 @@ public class Note {
         this.date = date;
     }
 
-//    public String getId_type() {
-//        return id_type;
-//    }
-//
-//    public void setId_type(String id_type) {
-//        this.id_type = id_type;
-//    }
+    public int getId_type() {
+        return id_type;
+    }
+
+    public void setId_type(int id_type) {
+        this.id_type = id_type;
+    }
 }

@@ -1,10 +1,12 @@
 package com.pchailam.noteapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.DialogTitle;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -21,7 +23,7 @@ public class ListNoteAdapter extends RecyclerView.Adapter<ListNoteAdapter.ListNo
     @SuppressLint("StaticFieldLeak")
     static Context context;
     static ArrayList<Note> data;
-    static MyDatabase myDatabase;
+    static ArrayList<Type> types;
     private static OnItemClickListener mListener;
 
     public ListNoteAdapter(Context context, ArrayList<Note> data) {
@@ -56,21 +58,7 @@ public class ListNoteAdapter extends RecyclerView.Adapter<ListNoteAdapter.ListNo
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
-    public void deleteNote(int pos) {
-        int noteId = data.get(pos).getId();
-
-        myDatabase = new MyDatabase(context);
-        data = myDatabase.readData();
-
-        SQLiteDatabase database = context.openOrCreateDatabase("NoteLibrary.db",Context.MODE_PRIVATE,null);
-        database.delete("my_library","id = ?", new String[]{String.valueOf(noteId)});
-        database.close();
-
-        data.remove(pos);
-        notifyItemRemoved(pos);
-        Toast.makeText(context, "Ghi chú đã được xóa " + pos, Toast.LENGTH_SHORT).show();
-    }
-    final class ListNoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+    static final class ListNoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
         TextView textViewTitle, textViewContent, textViewDate;
         ImageButton btnMenu;
 
@@ -112,13 +100,9 @@ public class ListNoteAdapter extends RecyclerView.Adapter<ListNoteAdapter.ListNo
         public boolean onMenuItemClick(MenuItem item) {
             int id = item.getItemId();
             if (id == R.id.typing) {
+//                types.add(new Type(1,"Học tập"));
+                Toast.makeText(context, "Loại", Toast.LENGTH_SHORT).show();
                 return true;
-            } else if (id == R.id.delete) {
-                int position = getAdapterPosition();
-                if(position != RecyclerView.NO_POSITION) {
-                    deleteNote(position);
-                    return true;
-                }
             }
             return false;
         }

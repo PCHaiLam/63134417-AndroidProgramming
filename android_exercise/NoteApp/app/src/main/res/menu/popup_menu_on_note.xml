@@ -4,8 +4,4 @@
         android:id="@+id/typing"
         android:title="Phân loại" />
 
-    <item
-        android:id="@+id/delete"
-        android:title="Xóa" />
-
 </menu>
