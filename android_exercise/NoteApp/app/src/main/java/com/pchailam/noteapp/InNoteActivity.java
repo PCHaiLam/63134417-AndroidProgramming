@@ -75,9 +75,10 @@ public class InNoteActivity extends AppCompatActivity {
                         int id = item.getItemId();
 
                         if (id == R.id.deleteInNote) {
-                            myDatabase.deleteNote(MainActivity.list.get(position).getId());
+                            myDatabase.deleteNote(NotesFragment.list.get(position).getId());
 
-                            MainActivity.list.remove(position);
+                            NotesFragment.list.remove(position);
+
                             Intent intent = new Intent();
                             intent.putExtra("updateData", true);
                             setResult(RESULT_OK, intent);
@@ -109,8 +110,8 @@ public class InNoteActivity extends AppCompatActivity {
         myDatabase = new MyDatabase(InNoteActivity.this);
 
         if (position != -1) {
-            Note newNote= new Note(MainActivity.list.get(position).getId(),title,content,newDateTime,1);
-            myDatabase.editNote(newNote,MainActivity.list.get(position).getId());
+            Note newNote= new Note(NotesFragment.list.get(position).getId(),title,content,newDateTime,1);
+            myDatabase.editNote(newNote,NotesFragment.list.get(position).getId());
         }
         else {
             Note newNote= new Note(position,title,content,newDateTime,1);
@@ -118,8 +119,8 @@ public class InNoteActivity extends AppCompatActivity {
         }
 
         if (!title.isEmpty()) {
-            MainActivity.list.get(position).setTitle(title);
-            MainActivity.list.get(position).setContent(content);
+            NotesFragment.list.get(position).setTitle(title);
+            NotesFragment.list.get(position).setContent(content);
 
             Intent intent = new Intent();
             intent.putExtra("updateData", true);

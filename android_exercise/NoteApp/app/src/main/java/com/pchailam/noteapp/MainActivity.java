@@ -21,43 +21,20 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements ListNoteAdapter.OnItemClickListener {
-    static ArrayList<Note> list;
-    private ListNoteAdapter adapter;
-    private RecyclerView recyclerView;
-    TextView textViewCount;
-    private MyDatabase myDatabase;
+public class MainActivity extends AppCompatActivity   {
     BottomNavigationView bottomNavigationView;
-    NotesFragment notesFragment = new NotesFragment();
-    TypeFragment typeFragment = new TypeFragment();
+    NotesFragment notesFragment;
+    TypeFragment typeFragment;
 
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        list = new ArrayList<>();
-        myDatabase = new MyDatabase(MainActivity.this);
-        list = myDatabase.readData();
-
-        textViewCount = findViewById(R.id.countNote);
-        textViewCount.setText(String.valueOf(list.size()));
-
-        recyclerView = findViewById(R.id.recyclerNote);
-
-        adapter = new ListNoteAdapter(MainActivity.this, list);
-
-        LinearLayoutManager listLayoutManager = new LinearLayoutManager(MainActivity.this);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this,2);
-        recyclerView.setLayoutManager(gridLayoutManager);
-
-        adapter.setOnItemClickListener(this);
-        recyclerView.setAdapter(adapter);
 
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageButton btnAddNewNode, btnMenu;
         btnAddNewNode = findViewById(R.id.btnAddNote);
@@ -67,80 +44,34 @@ public class MainActivity extends AppCompatActivity implements ListNoteAdapter.O
                 createNewNote();
             }
         });
-        btnMenu = findViewById(R.id.btnMenuNote);
-        btnMenu.setOnClickListener(new View.OnClickListener() {
+
+        notesFragment = new NotesFragment();
+        typeFragment = new TypeFragment();
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        getSupportFragmentManager().beginTransaction().replace(R.id.flFragment,notesFragment).commit();
+        bottomNavigationView.setSelectedItemId(R.id.notes);
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(MainActivity.this, btnMenu);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        int id = item.getItemId();
-                        if (id == R.id.grid_view) {
-                            recyclerView.setLayoutManager(gridLayoutManager);
-                            return true;
-                        } else if (id == R.id.list_view) {
-                            recyclerView.setLayoutManager(listLayoutManager);
-                            return true;
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.inflate(R.menu.popup_menu_app);
-                popupMenu.show();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+                if(id == R.id.notes) {
+                    Toast.makeText(MainActivity.this, "Notes", Toast.LENGTH_SHORT).show();
+                    transaction.replace(R.id.flFragment, notesFragment).commit();
+                } else if(id == R.id.types) {
+                    Toast.makeText(MainActivity.this, "Type", Toast.LENGTH_SHORT).show();
+                    transaction.replace(R.id.flFragment, typeFragment).commit();
+                } else
+                    return false;
+                return true;
             }
         });
-//        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-//        bottomNavigationView.setOnNavigationItemReselectedListener((BottomNavigationView.OnNavigationItemReselectedListener) this);
-//        bottomNavigationView.setSelectedItemId(R.id.notes);
+
     }
     public void createNewNote() {
         Intent intent = new Intent(this, InNoteActivity.class);
         startActivityForResult(intent,8000);
     }
-    @SuppressLint("NotifyDataSetChanged")
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-
-        if (requestCode == 8000 && resultCode == RESULT_OK) {
-            if (intent.getBooleanExtra("updateData", false)) {
-                adapter.notifyDataSetChanged();
-
-                String sumNote = String.valueOf(list.size());
-                textViewCount.setText(sumNote);
-            }
-        }
-    }
-    @Override
-    public void onItemClick(int position) {
-        Note clickedItem = list.get(position);
-
-        Intent intent = new Intent(this, InNoteActivity.class);
-        intent.putExtra("position", position);
-        intent.putExtra("title", clickedItem.getTitle());
-        intent.putExtra("content", clickedItem.getContent());
-        intent.putExtra("date", clickedItem.getDate());
-        intent.putExtra("type", clickedItem.getId_type());
-
-        startActivityForResult(intent, 8000);
-    }
-
-//    @Override
-//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        int id = item.getItemId();
-//
-//        if (id == R.id.notes) {
-//            transaction.replace(R.id.flFragment, notesFragment);
-//        } else if (id == R.id.types) {
-//            transaction.replace(R.id.flFragment, typeFragment);
-//        } else {
-//            return false;
-//        }
-//
-//        transaction.commit();
-//        return true;
-//    }
-
 }
