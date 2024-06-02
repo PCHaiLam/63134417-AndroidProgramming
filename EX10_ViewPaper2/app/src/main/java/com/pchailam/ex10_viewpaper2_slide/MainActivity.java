@@ -26,22 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new LandscapeAdapter(this, viewPaperData);
 
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                super.onPageScrollStateChanged(state);
-            }
-        });
         viewPager2.setAdapter(adapter);
     }
     private ArrayList<Landscape> getDataForViewPaper() {

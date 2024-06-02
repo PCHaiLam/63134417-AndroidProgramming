@@ -1,64 +1,118 @@
 package com.pchailam.noteapp;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TypeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
 public class TypeFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+     static ArrayList<Type> types;
+     ArrayList<Note> notes;
+    @SuppressLint("StaticFieldLeak")
+    static TypeAdapter adapter;
+    @SuppressLint("StaticFieldLeak")
+    static NoteAdapter noteAdapter;
+    MyDatabase myDatabase;
+    ActivityResultLauncher<Intent> activityResultLauncher;
     public TypeFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TypeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TypeFragment newInstance(String param1, String param2) {
-        TypeFragment fragment = new TypeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_type, container, false);
+        View view = inflater.inflate(R.layout.fragment_type, container, false);
+
+        myDatabase = new MyDatabase(getActivity());
+        notes = myDatabase.readData();
+        types = myDatabase.readTypeData();
+
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView_type);
+        adapter = new TypeAdapter(getContext(), types, new TypeAdapter.OnTypeClickListener() {
+            @Override
+            public void onTypeClick(int typeId) {
+                TextView tvTypeName = view.findViewById(R.id.typeName);
+                tvTypeName.setText(types.get(typeId-1).getType());
+                updateNotesForType(typeId);
+            }
+        });
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setAdapter(adapter);
+
+        RecyclerView recyclerView1 = view.findViewById(R.id.recyclerNoteInType);
+        noteAdapter = new NoteAdapter(getContext(), new ArrayList<>());
+        recyclerView1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView1.setAdapter(noteAdapter);
+
+        ImageButton btnAddType = view.findViewById(R.id.btnAddType);
+        btnAddType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddTypeDialog();
+            }
+        });
+        return view;
+    }
+
+    private void updateNotesForType(int typeId) {
+        ArrayList<Note> notes1 = new ArrayList<>();
+        for (Note note : notes) {
+            if (note.getId_type() == typeId) {
+                notes1.add(note);
+            }
+        }
+        noteAdapter.updateData(notes1);
+    }
+
+    private void showAddTypeDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Thêm sổ tay");
+
+        final EditText input = new EditText(getActivity());
+        input.setHint("Nhập tên của sổ tay");
+        builder.setView(input);
+
+        builder.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String typeName = input.getText().toString();
+                if (!typeName.isEmpty()) {
+                    myDatabase.addType(typeName);
+                    Type newType = new Type(types.size()+1, typeName);
+                    adapter.addType(newType);
+                } else {
+                    Toast.makeText(getActivity(), "Tên loại không được để trống", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        builder.setNegativeButton("Thoát", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 }

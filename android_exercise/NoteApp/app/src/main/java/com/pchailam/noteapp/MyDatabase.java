@@ -104,19 +104,29 @@ public class MyDatabase extends SQLiteOpenHelper {
 
         db.close();
     }
-//    void addType(String type) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues cv = new ContentValues();
-//
-//        cv.put(COLUMN_TYPE, type);
-//
-//        long result = db.insert(TABLE_TYPE_NOTE, null, cv);
-//        if (result == -1) {
-//            Toast.makeText(context, "Lỗi khi thêm loại ghi chú", Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(context, "Loại ghi chú đã được thêm", Toast.LENGTH_SHORT).show();
-//        }
-//    }
+    public void updateNoteType(int noteId, int typeId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String typeName = readTypeData().get(typeId-1).getType();
+        values.put(COLUMN_ID_TYPE_FK, typeId);
+
+        db.update("my_library", values, "id = ?", new String[]{String.valueOf(noteId)});
+        Toast.makeText(context, "Ghi chú đã được thêm vào " + typeName, Toast.LENGTH_SHORT).show();
+        db.close();
+    }
+    void addType(String type) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_TYPE, type);
+
+        long result = db.insert(TABLE_TYPE_NOTE, null, cv);
+        if (result == -1) {
+            Toast.makeText(context, "Lỗi khi thêm loại ghi chú", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Loại ghi chú đã được thêm", Toast.LENGTH_SHORT).show();
+        }
+    }
     public ArrayList<Note> readData() {
         SQLiteDatabase db = getReadableDatabase();
 

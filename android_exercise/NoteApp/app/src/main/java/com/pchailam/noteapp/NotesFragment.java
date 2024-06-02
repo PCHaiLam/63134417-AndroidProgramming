@@ -1,7 +1,5 @@
 package com.pchailam.noteapp;
 
-import static android.app.Activity.RESULT_OK;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -24,47 +22,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link NotesFragment#newInstance} factory method to
- * create an instance of this fragment.
- *
- */
-public class NotesFragment extends Fragment implements ListNoteAdapter.OnItemClickListener {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class NotesFragment extends Fragment implements NoteAdapter.OnItemClickListener {
     static ArrayList<Note> list;
-    private ListNoteAdapter adapter;
+    private NoteAdapter adapter;
     private RecyclerView recyclerView;
     TextView textViewCount;
     private MyDatabase myDatabase;
     ActivityResultLauncher<Intent> activityResultLauncher;
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment NotesFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static NotesFragment newInstance(String param1, String param2) {
-        NotesFragment fragment = new NotesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     public NotesFragment() {
         // Required empty public constructor
@@ -74,10 +38,6 @@ public class NotesFragment extends Fragment implements ListNoteAdapter.OnItemCli
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == Activity.RESULT_OK) {
                 Intent data = result.getData();
@@ -104,7 +64,7 @@ public class NotesFragment extends Fragment implements ListNoteAdapter.OnItemCli
 
         recyclerView = view.findViewById(R.id.recyclerNote);
 
-        adapter = new ListNoteAdapter(getActivity(), list);
+        adapter = new NoteAdapter(getActivity(), list);
 
         LinearLayoutManager listLayoutManager = new LinearLayoutManager(getActivity());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),2);
@@ -112,6 +72,15 @@ public class NotesFragment extends Fragment implements ListNoteAdapter.OnItemCli
 
         adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageButton btnAddNewNode;
+        btnAddNewNode = view.findViewById(R.id.btnAddNote);
+        btnAddNewNode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewNote();
+            }
+        });
 
         ImageButton btnMenu = view.findViewById(R.id.btnMenuNote);
         btnMenu.setOnClickListener(new View.OnClickListener() {
@@ -138,20 +107,6 @@ public class NotesFragment extends Fragment implements ListNoteAdapter.OnItemCli
         });
         return view;
     }
-    @SuppressLint("NotifyDataSetChanged")
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-
-        if (requestCode == 8000 && resultCode == RESULT_OK) {
-            if (intent.getBooleanExtra("updateData", false)) {
-                adapter.notifyDataSetChanged();
-
-                String sumNote = String.valueOf(list.size());
-                textViewCount.setText(sumNote);
-            }
-        }
-    }
     @Override
     public void onItemClick(int position) {
         Note clickedItem = list.get(position);
@@ -164,5 +119,9 @@ public class NotesFragment extends Fragment implements ListNoteAdapter.OnItemCli
         intent.putExtra("type", clickedItem.getId_type());
 
         activityResultLauncher.launch(intent);
+    }
+    public void createNewNote() {
+        Intent intent = new Intent(getActivity(), InNoteActivity.class);
+        startActivityForResult(intent,8000);
     }
 }
